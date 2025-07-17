@@ -1,0 +1,117 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# VS Code
+.vscode/
+
+# Data, models, and large files
+*.csv
+*.tsv
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.npy
+*.npz
+*.db
+*.sqlite
+*.log
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.gz
+*.sav
+*.mdl
+*.pt
+*.pth
+*.ckpt
+*.weights
+*.onnx
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
+
+# Ignore secrets and config
+.env
+.env.*
+secrets.toml
+
+# Ignore logs
+*.log
+
+# Ignore output
+output/
+
+# Ignore Docker
+*.dockerfile
+docker-compose.yml
+
+# Ignore MLflow artifacts
+mlruns/
+
+# Ignore other common folders
+.idea/
+*.iml
+
+# End of .gitignore 
