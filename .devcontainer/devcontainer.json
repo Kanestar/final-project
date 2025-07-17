@@ -1,0 +1,29 @@
+{
+    "name": "FastAPI Dev Container",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "features": {
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "python.defaultInterpreterPath": "/usr/local/bin/python"
+        },
+        "extensions": [
+          "ms-python.python",
+          "ms-python.vscode-pylance"
+        ]
+      }
+    },
+    "postCreateCommand": "pip install -r requirements.txt",
+    "forwardPorts": [8000],
+    "portsAttributes": {
+      "8000": {
+        "label": "FastAPI App",
+        "onAutoForward": "notify"
+      }
+    },
+    "remoteUser": "vscode"
+  }
+
+  
