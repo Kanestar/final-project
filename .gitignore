@@ -113,5 +113,5 @@ mlruns/
 # Ignore other common folders
 .idea/
 *.iml
-
+   data/*.csv
 # End of .gitignore 
