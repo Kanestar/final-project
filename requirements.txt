@@ -16,4 +16,4 @@ joblib
 pydantic
 numpy
 Jinja2
-
+python-multipart
