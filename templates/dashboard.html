@@ -1,14 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MindAI Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { max-width: 800px; }
+        .card { margin-bottom: 2rem; }
+    </style>
 </head>
 <body>
-    <h2>Sentiment Distribution</h2>
-    <canvas id="sentimentChart" width="400" height="200"></canvas>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">MindAI Sentiment Analysis</h1>
+
+        <!-- Prediction Form -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Analyze Text</h5>
+                <form id="predict-form">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="text-input" rows="3" placeholder="Enter text to analyze..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Predict</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Prediction Result -->
+        <div id="result" class="card" style="display: none;">
+            <div class="card-body">
+                <h5 class="card-title">Prediction Result</h5>
+                <p><strong>Sentiment:</strong> <span id="sentiment"></span></p>
+                <p><strong>Confidence:</strong> <span id="confidence"></span></p>
+                <h6>Recommended Interventions:</h6>
+                <ul id="interventions" class="list-group"></ul>
+            </div>
+        </div>
+
+        <!-- Sentiment Chart -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Overall Sentiment Distribution</h5>
+                <canvas id="sentimentChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Chart rendering
         const sentimentData = {{ data | tojson }};
         const ctx = document.getElementById('sentimentChart').getContext('2d');
         new Chart(ctx, {
@@ -21,13 +63,37 @@
                     backgroundColor: ['#4CAF50', '#F44336', '#FFC107']
                 }]
             },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        });
+
+        // Prediction logic
+        document.getElementById('predict-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = document.getElementById('text-input').value;
+            
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                document.getElementById('sentiment').innerText = result.sentiment;
+                document.getElementById('confidence').innerText = result.confidence.toFixed(4);
+                
+                const interventionsList = document.getElementById('interventions');
+                interventionsList.innerHTML = '';
+                result.interventions.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.innerText = item;
+                    interventionsList.appendChild(li);
+                });
+
+                document.getElementById('result').style.display = 'block';
+            } else {
+                alert('Error making prediction.');
             }
         });
     </script>

@@ -1,12 +1,19 @@
 # src/api.py
-
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import joblib
 from datetime import datetime
 import logging
+from pathlib import Path
 
 app = FastAPI(title="MindAI Sentiment API", version="1.0.0")
+
+# Static & Template setup
+BASE_DIR = Path(__file__).resolve().parent.parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 # Load the model
 try:
@@ -70,22 +77,8 @@ async def predict_sentiment(input_data: TextInput):
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "model_loaded": model is not None}
-@app.get("/")
-async def root():
-    return {"message": "Welcome to MindAI Sentiment API. Try POST /predict."}
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from pathlib import Path
 
-app = FastAPI()
-
-# Static & Template setup
-BASE_DIR = Path(__file__).resolve().parent.parent
-templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
-
-# Example dummy data
+# Example dummy data for the chart
 sentiment_counts = {
     "Positive": 45,
     "Negative": 20,
