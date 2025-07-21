@@ -63,7 +63,7 @@ coverage.xml
 *.tsv
 *.h5
 *.hdf5
-*.pkl
+# *.pkl  <- Comment this out or be more specific
 *.pickle
 *.joblib
 *.npy
@@ -114,4 +114,7 @@ mlruns/
 .idea/
 *.iml
    data/*.csv
-# End of .gitignore 
+# End of .gitignore
+
+# Keep our specific model file
+!models/sentiment_model.pkl 
